@@ -14,7 +14,7 @@ Why I started a blog based on [__Jekyll__](http://jekyllrb.com/) and hosted on [
 
 Setup wasn't super easy though. I made my life a bit harder on purpose because I wanted to have jekyll working locally. This way I can catch issues quickly. I followed [this guide](https://help.github.com/articles/using-jekyll-with-pages). I ran into few problems during installation, which were probably common rookie mistake for hard-core .net programmer and windows user as myself.
 
-First, no matter what I did, I couldn't install json gem, I received the following error:
+First, no matter what I did, I couldn't install json gem. I received the following error:
 
 `ERROR: Failed to build gem native extension.`
 
@@ -27,6 +27,7 @@ Second error happened while running jekyll for the fist time. It was
 This was resolved by installing python 2.7.8 instead of initially installed 3.4.1.
 
 So few things to remember while setting up jekyll locally:
+
 * install ruby and python into directory which does not contain spaces
 * bleeding edge software is not always the best choice. Use python 2.X
 * there may be issues with console emulators like __console2__ or __conemu__. Use good old windows command prompt if you'll see any unexplainable errors.
