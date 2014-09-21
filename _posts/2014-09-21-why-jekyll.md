@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Why Jekyll?"
-date:   2014-09-13 17:00:59
+date:   2014-09-21 17:00:59
 ---
 
 Why I started a blog based on [__Jekyll__](http://jekyllrb.com/) and hosted on [__Github Pages__](https://pages.github.com/)?
