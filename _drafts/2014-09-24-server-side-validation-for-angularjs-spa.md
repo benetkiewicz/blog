@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "SS valdidation"
+title:  "Server side valdidation for angularjs SPA"
 date:   2014-09-24 16:57:59
 categories: angularjs
 ---
