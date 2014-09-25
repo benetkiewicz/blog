@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "ASP.NET bundles usefull in angularjs development"
-date:   2014-09-20 16:57:59
+date:   2014-09-25 16:57:59
 categories: angularjs
 ---
 
