@@ -25,6 +25,6 @@ It will create a `scripts\application` virtual resource that will contain all ja
 <script src="scripts/application" type="text/javascript"></script>
 {% endhighlight %}
 
-From now on you can just write code, start the app and everything will be there. Additional benefit will be limited number of http requests required to download content of your website.
+From now on you can just write code, add new files, start the app and everything will be there. Additional benefit will be limited number of http requests required to download content of your website.
 
 [Bundles]: http://www.asp.net/mvc/tutorials/mvc-4/bundling-and-minification
