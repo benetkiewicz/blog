@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Server side valdidation for angularjs SPA"
-date:   2014-09-24 16:57:59
-categories: angularjs
+date:   2014-09-28 16:57:59
+categories: angularjs asp.net
 ---
 
 Consider the following view model classes:
