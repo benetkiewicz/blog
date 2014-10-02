@@ -7,28 +7,28 @@ categories: quality
 
 Good old principles
 --------------
-We all have good coding practices hard-coded into our brains. Most dev conferences have at least few talks about how to write good quality code. I also know all these principles, I try to incorporate them into my projects. We all know them:
+We all have good coding practices hard-coded into our brains. Most dev conferences have at least few talks about how to write good quality code. I also know all these principles, I try to incorporate them into my projects. These are:
 
 * keep it simple
-* unit tests, automatic system tests
-* documentation
+* have unit tests, automatic system tests
+* write documentation
 * encapsulate
 * SOLID
-* security
+* remember about security
 * world peace
 * etc.
 
-But this is my eight year in the industry, writing enterprise applications for a living, and you know what? There are other important things! I will even risk the blasphemy and say - more important.
+But this is my eighth year in the industry, writing enterprise applications for a living, and you know what? There are other important things to get job done! I will even risk the blasphemy and say - more important.
 
-To explain myself, I first need to put things into context. Imagine working for medium-size software company that writes own code but also gets requests for adding features for existing code or maintain old code (just keep it alive and keep up to date with, let's say, new law regulations). Your company exists 10+ years, people are coming and going, business partners (guys who gave you tasks to maintain their code) are changing too. One day you come to work, sit at your desk and asked to implement a quick change in one of the projects we just received from a client...
+To explain myself, I first need to put things into context. Imagine working for medium-size software company that writes own code but also gets requests for adding features for existing code or maintain old code (just keep it alive and keep up to date with, let's say, new law regulations). Your company exists 10+ years, people are coming and going, business partners (guys who gave you tasks to maintain their code) are changing too. One day you come to work, sit at your desk and find yourself assigned to implement quick change in one of the projects your company just received from a client...
 
 Story
 -------------
-> It was a week before they clicked into proper checkboxes to give you access. That week will not push the deadline. Moreover that TFS if behind quirky VPN and it took 4 attempts to fully clone, pardon, check-out the code. You'll probably end up working in offline mode and right clicking source code files to remove ___read only___ attribute. You'll get lost between Work Items. You will not understand checkin policy and you'll have trouble pushing, pardon, checking-in your work. This nightmare will be repeating itself for each new member of your team. And finally in the end someone will come and say that your license is invalid and you should send your client and zip package.
+> It was a week before they clicked into proper TFS checkboxes to give me access. That week will not push the deadline. Moreover that TFS if behind quirky VPN and it took 4 attempts to fully clone, pardon, check-out the code. I'll probably end up working in offline mode and right clicking source code files to remove ___read only___ attribute. I'll get lost between Work Items. I will not understand checkin policy and I'll have trouble pushing, pardon, checking-in my work. This nightmare will be repeating itself for each new member of my team. And finally in the end someone will come and say that my license is invalid and I should just a zip package to a client.
 
-> OK, so you've got the code. You load solution into VS and hit F5. Nuget is downloading components, project starts and takes you to home page, right? Wrong! You've got 596 compilation errors. One of the projects didn't load at all because it is hacky ninja web deployment project very popular seven years ago, whose developer died from the old age in 2010. NHibernate dll is referenced from the `bin` folder which is obviously empty and some old JSON library's strong name has invalid key.
+> OK, so I've got the code. I load solution into VS and hit F5. Nuget is downloading components, project starts and takes you to home page, right? Wrong! I've got 596 compilation errors. One of the projects didn't load at all because it is hacky ninja web deployment project very popular seven years ago, whose developer died from the old age in 2010. NHibernate dll is referenced from the `bin` folder which is obviously empty and some old JSON library's strong name has invalid key.
 
-> Once your done with fixing the compilation process, you promise yourself that you wont be so naive again today. You remember that there's a database for this project, some guy emailed you 340MB backup a week ago, so you start with that. Boomer. Backup didn't go through your company filters, you have to write another email and ask the guy to SFTP it to you. Fortunately that was quick, you proceed. Where's the connection string. `CTRL+SHIFT+F`, whoa, there's no connection string. You dig through the code. Jesus Christ, what a pile of crap. Got it! There's no connection string because author of this app decided to go with his own approach - connection string is saved in the secret database table, for which the connection string is stored custom config section in web.config. Oh yeah baby, now we're getting somewhere. You restore the backup, fix the custom config and have a brief moment of sanity - why the hell I am discovering this? Why didn't I just followed the deployment or quick start document? Right, there isn't one.
+> Once I'm done with fixing the compilation process, I promise myself that I will not be so naive again today. You remember that there's a database for this project, some guy emailed you 340MB backup a week ago, so you start with that. Boomer. Backup didn't go through your company filters, you have to write another email and ask the guy to SFTP it to you. Fortunately that was quick, you proceed. Where's the connection string. `CTRL+SHIFT+F`, whoa, there's no connection string. You dig through the code. Jesus Christ, what a pile of crap. Got it! There's no connection string because author of this app decided to go with his own approach - connection string is saved in the secret database table, for which the connection string is stored custom config section in web.config. Oh yeah baby, now we're getting somewhere. You restore the backup, fix the custom config and have a brief moment of sanity - why the hell I am discovering this? Why didn't I just followed the deployment or quick start document? Right, there isn't one.
 
 > F5. Runtime Exception! Maps component trial library expired about a year ago. You fix that. F5! Runtime exception! Redis cache needs read/write access rights to `c:\temp\hollyMolly` directory. F5! Login page! Finally!
 
