@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "How to generate sample data on the fly"
-date:   2014-10-04 16:57:59
+date:   2014-10-05 16:57:59
 categories: csharp nuget
 ---
 To help me quickly learn new things on the on front-end side, I implemented a small library that generates sample data on the fly.
