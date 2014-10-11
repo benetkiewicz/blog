@@ -2,7 +2,7 @@
 layout: post
 title:  "Ninject in WebForms application"
 date:   2014-10-11 16:57:59
-categories: csharp javascript json
+categories: csharp ninject
 ---
 
 Recently I tried to set up ninject into WebForms application, like that:
