@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "JSon result and datetime"
-date:   2014-10-05 16:57:59
-categories: csharp javascript json
+title:  "JSon result and datetime in ASP.NET MVC and WebAPI"
+date:   2014-10-16 15:57:59
+categories: csharp json
 ---
 In ASP.NET MVC you can return a number of different results from your controller, one of them is JSonResult. It automatically performs object serialization to JSon format and pushes serialized object to requestor. It works pretty good overall but there's a problem with DateTime values.
 Consider the following controller class:
