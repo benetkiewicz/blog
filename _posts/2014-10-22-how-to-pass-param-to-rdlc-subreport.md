@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "How to pass a parameter to a RDLC subreport"
-date:   2014-10-08 16:57:59
-categories: csharp rdlc reporting
+date:   2014-10-22 22:57:59
+categories: csharp rdlc
 ---
 This is one of these posts to remember. Every now and then I am forced to design a bit more complex report that has to pass parameters to its subreports. There are few steps to follow and I don't want to discover this again in few months, so here's how it goes.
 
