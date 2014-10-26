@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Code mutation with Roslyn"
-date:   2014-10-24 14:57:59
+date:   2014-10-26 09:57:59
 categories: csharp roslyn
 ---
 
@@ -31,7 +31,7 @@ Debug.Assert(Calculator.MultiplyByTwo(0) != null);
 But is that good? Obviously no. What if you could create code mutation and run the test again? Code mutation would be almost the same as before but with a subtle change, which would slightly change how the algorithm works and should be detected by unit test.
 With that magic engine in place, we could define our new metric as percentage of failing tests, which are being run against all kinds of code mutations. Ideally, the best result is when only the original code works and the simplest semantical change breaks the test.
 
-This idea became my __idée fixe__ for the last month and it encouraged my to make a reasearch on a scary topic, which is .NET compiler platform (__[Roslyn]__). Roslyn is advertised as Compiler as a Service which in my mind translates to API that allows you to work with a source code on both syntax and semantic level.
+This became my __idée fixe__ for the last month and it encouraged my to make a reasearch on a scary topic, which is .NET compiler platform (__[Roslyn]__). Roslyn is advertised as Compiler as a Service which in my mind translates to API that allows you to work with a source code on both syntax and semantic level.
 
 My take on code mutation is the simplest possible: find declared const integers and increment them by one. Run the tests again to see if they fail.
 
@@ -198,7 +198,17 @@ public void MutatedCalculatorCodeShouldWork()
 
 As you can see here, transforming this into commercial product should be easy. Just implement a ton of other mutations, provide some automation, reporting and easy to use API ;) But seriously, Roslyn is a great tool. I just can't wait for .net vNext, which will have Roslyn as one of its building blocks. I also can't wait for all the great tools that inevitably will follow, because the potential here is even hard to imagine.
 
+### Bonus for java guys ###
+
+The similar concept is already implemented in java (as far as I can tell). Go ahead and visit [pitest] website for details.
+
+### Bonus for .NET guys ###
+
+I posted the entire source code [on my github]
+
 [devday]: http://devday.pl
 [Seb Rose]: https://twitter.com/sebrose
 [Roslyn]: http://msdn.microsoft.com/en-us/vstudio/roslyn.aspx
 [Roslynquoter]: http://roslynquoter.azurewebsites.net/
+[pitest]: http://pitest.org/
+[on my github]: https://github.com/benetkiewicz/RoslynMutationTests
