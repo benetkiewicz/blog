@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Beyond SOLID - what else is important while maintaining existing enterprise systems?"
-date:   2014-09-26 16:57:59
+date:   2015-01-05 19:57:59
 categories: quality
 ---
 
