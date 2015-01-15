@@ -13,15 +13,15 @@ There are three _advanced_ git commands that I use quite often to keep my commit
 
 As you can see above I'm rather git-console person but I thought it might be fun to see how easy these things can be achieved in modern git GUIs for Windows. I chose three of them for my experiment:
 
-* GitHub for Windows (my current favourite)
-* Git Gui (part of default msysgit installation)
-* SourceTree (seems to be most popular GUI in the community)
+* [GitHub for Windows][github] (my current favourite)
+* [Git Gui][gitgui] (part of default msysgit installation)
+* [SourceTree][sourcetree] (seems to be most popular GUI in the community)
 
 <blockquote>
 I use github for windows right now because it provides really pretty diff view (easier to use than going file after file when running `git diftool`) and I also use it for selecting files for stage/commit (easier to select a file with a mouse than type file names one by one).
 </blockquote>
 
-I imagined the following scenario for my test - imagine you have the C# file that looks like this:
+Scenario for my test is as follows - imagine you have the C# file that looks like this:
 
 {% highlight C# %}
 public class Calculator
@@ -67,7 +67,7 @@ At the time I am writing this, version 2.7.0.24 has just been released with part
 Unfortunately I don't see a way to interactively rebase or reset history to a given point.
 
 ### Default Git Gui
-I was suprised that ugly looking default Git Gui does have partial add functionality:
+I was surprised that simple, ugly looking default Git Gui does have partial add functionality:
 
 ![GitGUI partial add]({{ site.url }}images/gitgui_add_lines.png)
 
@@ -83,4 +83,27 @@ It displays the following dialog window, where one can choose the type of reset:
 
 ### SourceTree
 
-This one is a real git power horse.
+This one is a real git power horse. It has all three tested features.
+
+Partial add:
+
+![SourceTree partial add]({{ site.url }}images/sourcetree_add_lines.png)
+
+Interactive rebase:
+
+![SourceTree interactive rebase]({{ site.url }}images/sourcetree_interactive.png)
+
+![SourceTree interactive rebase dialog]({{ site.url }}images/sourcetree_interactive_dialog.png)
+
+Reset:
+
+![SourceTree reset]({{ site.url }}images/sourcetree_reset.png)
+
+![SourceTree reset]({{ site.url }}images/sourcetree_reset_dialog.png)
+
+## Verdict
+SourceTree is a definite winner in this contest. It may not be as pretty as GitHub for Windows but I think I can get use to it. And when it comes to functionality, it is packed with advanced features and it looks like you can give your console day off if you have SourceTree installed.
+
+[github]: https://windows.github.com/
+[gitgui]: https://msysgit.github.io/
+[sourcetree]: http://www.sourcetreeapp.com/
