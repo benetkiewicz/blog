@@ -2,6 +2,7 @@
 layout: post
 title:  "Explaining ASP.NET vNext Configure method on OWIN example"
 date:   2015-01-18 17:00:59
+categories: csharp vNext owin
 ---
 
 This is the bare-bones ASP.NET MVC 6 (vNext) app:
