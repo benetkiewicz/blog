@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Explaining ASP.NET vNext Configure method on OWIN example"
-date:   2015-01-18 17:00:59
+date:   2015-01-20 20:00:59
 categories: csharp vNext owin
 ---
 
@@ -34,7 +34,7 @@ public class HelloWorldController : Controller
 
 When I first saw it I thought: cool. But then I thought: hey, what the hell are all these `app.Use()` statements. Why do they look like that, how does that work and how will I know what should I use()? For quite a bit of time that code snippet from _Startup_ class remained kind of a black box for me, I just assumed that this is how it suppose to be and asked no questions.
 
-Until recently when I learned about OWIN and things started to make sense.
+Until recently when I learned about [OWIN][owin] and things started to make sense.
 
 <blockquote>
 OWIN defines a standard interface between .NET web servers and web applications. The goal of the OWIN interface is to decouple server and application, encourage the development of simple modules for .NET web development, and, by being an open standard, stimulate the open source ecosystem of .NET web development tools.
@@ -69,7 +69,7 @@ public class PoorMansMvc
 
 `owin.ResponseBody` is where, by OWIN specification, the content of the response should be placed.
 
-The driver for entire process here is __Katana__: OWIN implementation by Microsoft. Katana packages can be found on nuget. You'll need `Microsoft.Owin.Host.HttpListener` and `Microsoft.Owin.Hosting` to run this sample. The entire C# console app that self-hosts the poor man's MVC looks like this (notice _AppFunc_ alias for readability):
+The driver for entire process here is [__Katana__][katana]: OWIN implementation by Microsoft. Katana packages can be found on nuget. You'll need `Microsoft.Owin.Host.HttpListener` and `Microsoft.Owin.Hosting` to run this sample. The entire C# console app that self-hosts the poor man's MVC looks like this (notice _AppFunc_ alias for readability):
 
 {% highlight C# %}
 using System;
@@ -140,3 +140,6 @@ public static class AppBuilderExtensions
 you can use `UseMvc()` method in `Configuration()` method and feel like Microsoft .NET MVC team member.
 
 Hopefully this article have helped you understand the _magic_ of new ASP.NET vNext configuration methods and it should also be a good start before learning how middlewares can be chained, and other more advanced OWIN stuff.
+
+[owin]: http://owin.org/
+[katana]: http://www.asp.net/aspnet/overview/owin-and-katana/an-overview-of-project-katana
