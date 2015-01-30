@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Network communication debugging in .net"
-date:   2015-01-24 20:00:59
+date:   2015-01-30 17:50:59
 categories: rest wcf webservices
 ---
 While working with web apps, you often need to go beyond Visual Studio debugger and see what's actually being pushed through the wire. This post is a cumulative cheat sheet on how to set up network capturing for various protocols present in .net ecosystem:
