@@ -50,26 +50,52 @@ There are at least three methods of exploring syntax trees and we'll explore eac
 
 As mentioned before, one of the basic properties of a tree node is its SyntaxKind. This `enum` described every piece of C# code with its keyword or specific language construct and every node supports `IsKind()` method. Consider the following code which prints all properties in a class. Assuming the tree structure and presence of `IsKind()` method, we can write the following code:
 {% highlight C# %}
-var localVariableDeclaration = SyntaxFactory.ParseStatement("int foo = 123;");
+string code = "class Foo { public Foo() {} public int Bar { get; set; } public string Baz { get; set; } }";
+SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code);
+SyntaxNode root = syntaxTree.GetRoot();
 {% endhighlight %}
 
-#### Utilizing OfType<T> method
+{% highlight C# %}
+foreach (var node in root.DescendantNodes())
+{
+    if (node.IsKind(SyntaxKind.PropertyDeclaration))
+    {
+        Console.WriteLine(node);
+    }
+}
+{% endhighlight %}
+
+#### Utilizing OfType&lt;T&gt; method
 Another great way of syntax tree traversal is `OfType<T>` method. It is like supercharged `where` clause for filtering tree for a requested node type.
 {% highlight C# %}
-var localVariableDeclaration = SyntaxFactory.ParseStatement("int foo = 123;");
+ var properties = root.DescendantNodes().OfType<PropertyDeclarationSyntax>();
+foreach (var property in properties)
+{
+    Console.WriteLine(property);
+}
 {% endhighlight %}
 
 #### Implementic your own SyntaxWalker
 Last but not least: `CSharpSyntaxWalker`. It is very easy to use, just derive from `CSharpSyntaxWalker` class and override `VisitX()` method, where _X_ is a type of node of your choice. You can override multiple methods, you can override all-taking `Visit()` method, you can aggregate some results inside your walker instance. This is a perfect way of accomplishing some more advanced goals.
 
 {% highlight C# %}
-var localVariableDeclaration = SyntaxFactory.ParseStatement("int foo = 123;");
+class PropertiesWalker : CSharpSyntaxWalker
+{
+    public override void VisitPropertyDeclaration(PropertyDeclarationSyntax node)
+    {
+        Console.WriteLine(node + " // from walker");
+    }
+}
+{% endhighlight %}
+
+{% highlight C# %}
+new PropertiesWalker().Visit(root);
 {% endhighlight %}
 
 ### Syntax tree modification
 Thanks to rich API there's a pletheora or new possibilities when it comes to working with code. The most common usage of syntax tree modification API is creating Analyzers and Code Fixes. Hovewer nothing will stop you from creating your own tools and libraries that will apply code refactorings or even change the code in the fly.
 
-Since syntax trees are immutable, each modification of a tree or a syntax node will produce new instance. Syntax node of various SyntaxKind expose their specific modification entry points that make sense in their scope. So for example `IfStatementSyntax` contains methods `WithStatement()` and `WithCondition()` that will produce new `IfStatementSyntax` object with respective part being altered to a new value. Popular Roslyn code fix example is the one where single statement that follows `if` is being embedded in a block. It nicely illustrates what tree modification is all about.
+Since syntax trees are immutable, each modification of a tree or a syntax node will produce new instance. Syntax nodes of various SyntaxKind expose their specific modification entry points that make sense in their scope. So for example `IfStatementSyntax` contains methods `WithStatement()` and `WithCondition()` that will produce new `IfStatementSyntax` object with respective part being altered to a new value. Popular Roslyn code fix example is the one where single statement that follows `if` is being embedded in a block. It nicely illustrates what tree modification is all about.
 
 {% highlight C# %}
 // taking ifStatement of type IfStatementSyntax on input
