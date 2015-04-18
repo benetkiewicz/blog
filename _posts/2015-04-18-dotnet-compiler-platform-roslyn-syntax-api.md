@@ -1,9 +1,10 @@
 ---
 layout: post
-title: ".NET compiler platform (aka Roslyn) syntax API"
-date: "2015-04-18 17:04"
+title: .NET compiler platform (aka Roslyn) syntax API
+date: "2015-04-18 19:23"
 categories: csharp roslyn
 ---
+
 Creating a reasonable abstraction over C# syntax was one of the key factors to Roslyn success. In compilers world, creating syntax trees is one of the basic concepts and very important step on the way to a binary result file.
 Creating syntax tree in Roslyn was even harder task. It not only has to perform all tasks that other compilers perform inside their black boxes but, being _Compiler as a Service_, it must provide clear, easy to understand API and features not directly related to producing binary, like:
 
