@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Roslyn Syntax"
-date: "2015-04-14 07:04"
+title: ".NET compiler platform (aka Roslyn) syntax API"
+date: "2015-04-18 17:04"
 categories: csharp roslyn
 ---
 Creating a reasonable abstraction over C# syntax was one of the key factors to Roslyn success. In compilers world, creating syntax trees is one of the basic concepts and very important step on the way to a binary result file.
@@ -14,7 +14,7 @@ Creating syntax tree in Roslyn was even harder task. It not only has to perform 
 Roslyn aims to fulfill all the above promises inside a `SyntaxTree` class (and its `CSharpSyntaxTree` derivate). That class is a center of gravity which all the syntax supporting code is orbiting. One of the most important things to know about Roslyn syntax trees is that they are immutable. Thanks to immutability SyntaxTree is:
 
 * a lot less likely to contain bugs related to locking and multi-thread access issues
-* fast and performant
+* fast and well performing
 
 So let's explore few usage scenarios, for both creating and consuming C# syntax trees.
 
