@@ -24,7 +24,7 @@ class Bar
 
 * They look ugly in the code, it is hard to format them in a proper way
 * They are harder to debug (especially in VS 2010), when you put a breakpoint on a single initializer line, Visual Studio puts breakpoint on entire initializer
-* They blur stack trace. If you have complex object initializer with nested properties being read (or God forbids - methods), your stack trace is pointed to a first line of initialization statement.
+* They blur stack trace. If you have complex object initializer with nested properties being read (or God forbids - methods), your stack trace is still pointed to a first line of initialization statement.
 
 These are the three main reasons which make me remove object initializers from code every time I can. Unfortunately this is a pain. Resharper seems to be fine with object initializer and refactoring by hand is clunky and not a lot of fun. Fortunately with Roslyn we can automate process of refactoring affected code.
 
@@ -43,7 +43,7 @@ My solution will detect and fix only the simplest form of the object initializer
 
 `ProcessFoo(new Foo { F = null });`
 
-With the above assumptions, analyzer code is clean and simple:
+With the above assumptions, analyzer code is clean and simple. I register for `LocalDeclarationStatement` type of nodes, check if there's only one object initializer per declaration and report diagnostic:
 
 {% highlight C# %}
 public override void Initialize(AnalysisContext context)

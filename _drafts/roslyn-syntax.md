@@ -36,7 +36,7 @@ SyntaxTree st = CSharpSyntaxTree.Create(SyntaxFactory.ClassDeclaration("Foo").Wi
 {% endhighlight %}
 
 #### Use other SyntaxTree parsing methods for parsing individual nodes
-As you can see above, creating syntax tree with API for something even a bit more complicated can be a pain. So what if we have an existing syntax tree that comes from a source and it needs a simple modification (let's say a new variable declaration with initializer)? Fortunately that additional syntax node does not have to be created using `SyntaxFactory` building blocks. `SyntaxFactory` can also create a variety of complex syntax node based on "incomplete" code, like this:
+As you can see above, creating syntax tree with API for something even a bit more complex can be a pain. So what if we have an existing syntax tree that comes from a source and it needs a simple modification (let's say a new variable declaration with initializer)? Fortunately that additional syntax node does not have to be created using `SyntaxFactory` building blocks. `SyntaxFactory` can also create a variety of complex syntax node based on "incomplete" code, like this:
 
 {% highlight C# %}
 var localVariableDeclaration = SyntaxFactory.ParseStatement("int foo = 123;");
@@ -48,7 +48,7 @@ There are at least three methods of exploring syntax trees and we'll explore eac
 
 #### Evaluating SyntaxKind property
 
-As mentioned before, one of the basic properties of a tree node is its SyntaxKind. This `enum` described every piece of C# code with its keyword or specific language construct and every node supports `IsKind()` method. Consider the following code which prints all properties in a class. Assuming the tree structure and presence of `IsKind()` method, we can write the following code:
+As mentioned before, one of the basic properties of a tree node is its SyntaxKind. This `enum` describes every piece of C# code with its keyword or specific language construct and every node supports `IsKind()` method. Consider the following code which prints all properties in a class. Assuming the tree structure and presence of `IsKind()` method, we can write the following code:
 {% highlight C# %}
 string code = "class Foo { public Foo() {} public int Bar { get; set; } public string Baz { get; set; } }";
 SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code);
@@ -101,3 +101,5 @@ Since syntax trees are immutable, each modification of a tree or a syntax node w
 // taking ifStatement of type IfStatementSyntax on input
 var newIfStatement = ifStatement.WithStatement(SyntaxFactory.Block(ifStatement.Statement));
 {% endhighlight %}
+
+I will cover Roslyn analyzers and code fixes in my next blog post.
