@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "TGD.NET talk about .NET Compiler Platform"
-date: "2015-04-21 23:02"
+title: TGD.NET talk about .NET Compiler Platform
+date: "2015-04-21 23:41"
 categories: roslyn career
 ---
 
