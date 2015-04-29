@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "Object initializer code fix with Roslyn using TrackNodes extension method"
-date: "2015-04-13 23:26"
+date: "2015-04-29 23:26"
+categories: roslyn csharp
 ---
 
 ### Code smell
@@ -102,7 +103,15 @@ refreshedObjectInitializer = newBlock.GetCurrentNode(declarationWithInitializer)
 newBlock = newBlock.ReplaceNode(refreshedObjectInitializer, declarationWithoutInitializer);
 {% endhighlight %}
 
+### Code fix algorithm and source
+When you know how to deal with node tracking an have some understanding of Roslyn syntax API, the actual solution starts to look quite simple.
+
+1. Find object initialization part and build property assignments based on that.
+2. Figure out if object is initialized with argument list or without it. Add empty argument list if it isn't there.
+3. Inject previously built property assignments after object declaration.
+4. Remove object initializer syntax.
+
 As usual, the full source of analyzer, code fix and unit tests can be found [on my github][mygithub].
 
 [36f76dca]: http://jeremybytes.blogspot.com/2014/12/new-video-building-diagnostic-analyzer.html
-[mygithub]: https://github.com/benetkiewicz/TgdNetRoslynSamples/
+[mygithub]: https://github.com/benetkiewicz/RoslynObjectInitializerCodeFix/
