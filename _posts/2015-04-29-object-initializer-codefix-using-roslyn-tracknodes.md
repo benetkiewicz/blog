@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Object initializer code fix with Roslyn using TrackNodes extension method"
-date: "2015-04-29 23:26"
+title: Object initializer code fix with Roslyn using TrackNodes extension method
+date: "2015-04-29 23:30"
 categories: roslyn csharp
 ---
 
