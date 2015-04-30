@@ -75,7 +75,8 @@ private void AnalyzeObjectInitializer(SyntaxNodeAnalysisContext context)
 Code fix is a lot more complex then most examples that you can find in Roslyn tutorials and let me tell you why. Most code fixes operate in a single context and they don't need to go beyond a language construct being analyzed and fixed. For example, the [popular if braces analyzer][36f76dca] fixes everything inside a particular IfStatementSytax and does not have to go beyond that syntax node. It just takes expression and embeds it in a block if necessary. For me, dealing with ObjectInitializerSyntax is not enough. I need to remove it but I also need to add new statements right after variable initialization that correspond to property initialization that just have been removed. That means that I need to play with a code block containing given local variable initialization statement.
 
 Applying few modifications on a immutable syntax tree has an interesting implication. After you apply your first modification to, let's say code block, all your references to nodes in the original syntax tree are lost (or I should rather say: inapplicable). Consider the following example:
-![roslyn block modification](\images\roslyn-block-modification.png)
+
+![roslyn block modification]({{ site.url }}images/roslyn-block-modification.png)
 
 After you perform the insert operation on Block, you cannot simply perform replace Statement1 with Statement4 in Block':
 
