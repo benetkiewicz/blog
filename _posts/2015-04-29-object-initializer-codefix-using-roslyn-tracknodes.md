@@ -18,7 +18,7 @@ class Bar
 {
     void Baz()
     {
-        var f = new Foo() { F = null }; // Ouch!
+        var f = new Foo() { F = new Foo() }; // Ouch!
     }
 }
 {% endhighlight %}
