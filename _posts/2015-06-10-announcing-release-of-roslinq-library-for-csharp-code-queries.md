@@ -1,7 +1,8 @@
 ---
 layout: post
-title: "Announcing release of Roslinq - library for C# code queries"
-date: "2015-06-10 11:03"
+title: 'Announcing release of Roslinq - library for C# code queries'
+date: '2015-06-10 20:08'
+categories: csharp roslyn
 ---
 
 ## Roslinq
