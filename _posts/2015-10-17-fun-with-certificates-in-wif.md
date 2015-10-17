@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Fun with certificates in WIF"
-date: "2015-10-15 15:42"
+title: Fun with certificates in WIF
+date: '2015-10-17 09:52'
 categories: csharp wif
 ---
 
