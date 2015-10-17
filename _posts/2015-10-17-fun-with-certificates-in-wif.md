@@ -12,15 +12,15 @@ But here I only wanted to share with you two small gems that may help you go a s
 
 While working with certificates in WIF and Windows, sooner or later you'll have to copy certificate thumbprint to put somewhere in the configuration. In order to do that you'll probably go to Microsoft Management Console and use Manage Computer Certificates Snap-In. Select, copy, paste, done? Almost...
 
-![MMC certificate](\images\cert_mmc.png)
+![MMC certificate]({{ site.url }}images\cert_mmc.png)
 
 If you'll paste the value in web.config using Visual Studio, VS will happily accept that.
 
-![Visual Studio thumbprint](\images\cert_vs.png)
+![Visual Studio thumbprint]({{ site.url }}images\cert_vs.png)
 
 But there will be some issues. See how the same value looks in notepad:
 
-![Notepad thumbprint](\images\cert_notepad2.png)
+![Notepad thumbprint]({{ site.url }}images\cert_notepad2.png)
 
 I just saved you half a day of going after your own tail.
 
