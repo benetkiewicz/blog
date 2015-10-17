@@ -2,14 +2,15 @@
 layout: post
 title: "Fun with certificates in WIF"
 date: "2015-10-15 15:42"
+categories: csharp wif
 ---
 
-I'm writing a custom STS using Windows Identity Framework and this is joy oh joy. Certs flying here and there, public keys, private keys, policies, trust and lack of trust.
+Recently I've been developing a custom STS using Windows Identity Framework and this is joy oh joy. Certs flying here and there, public keys, private keys, policies, trust and lack of trust.
 But here I only wanted to share with you two small gems that may help you go a similar path and maybe save some precious time in your life.
 
 ## MMC invisible UTF sign
 
-While working with certificates in WIF and Windows, sooner or later you'll have to copy learn certificate thumbprint to put somewhere in the configuration. In order to do that you'll probably go to Microsoft Management Console and use Manage Computer Certificates Snap-In. Select, copy, paste, done? Almost...
+While working with certificates in WIF and Windows, sooner or later you'll have to copy certificate thumbprint to put somewhere in the configuration. In order to do that you'll probably go to Microsoft Management Console and use Manage Computer Certificates Snap-In. Select, copy, paste, done? Almost...
 
 ![MMC certificate](\images\cert_mmc.png)
 
@@ -25,7 +26,7 @@ I just saved you half a day of going after your own tail.
 
 ## Signing STS ticket without opening password protected certificate
 
-You need to digitally sign the STS ticket, so Relaying Parties will know that you are you and they can trust in whatever you've sent them. You don't want to do it this way:
+STS ticket needs to be digitally signed, so Relaying Parties will know that you are you and they can trust in whatever you've sent them. To sign a ticket with a certificate, you need to access it first. Avoid accessing certificate file because this requires password and lacks granular access rights. So avoid doing this:
 
 {% highlight C# %}
 var signingCert = new X509Certificate2(signingCertFullPath, password, X509KeyStorageFlags.MachineKeySet);
