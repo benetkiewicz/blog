@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "SQL Backup Helpers for PowerShell"
-date: "2015-12-25 23:44"
+title: SQL Backup Helpers for PowerShell
+date: '2015-12-26 11:47'
 categories: sql powershell scripts
 ---
 
