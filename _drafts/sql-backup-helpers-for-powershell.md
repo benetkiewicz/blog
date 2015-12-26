@@ -19,8 +19,11 @@ New-SqlBackup -dbName AdventureWorks
 Restore-SqlBackup AdventureWorks
 {% endhighlight %}
 
-Please make note that this module depends on __SQL Server Management Objects__ API, so you need to have Management Studio installed or it will not work.
+Please make note that this module depends on __SQL Server Management Objects__ API, so you need to have __Client Tools SDK__ for SQL Server (part of SQL Server installation) or __Shared Management Objects__ from the [SQL Server feature pack][ssfp].
+
+### Download
 
 SqlHelpers PowerShell module is available on [github][sqlUtils]
 
 [sqlUtils]: https://github.com/piotratais/SqlHelpersPS/
+[ssfp]: https://www.microsoft.com/en-us/download/details.aspx?id=44272
