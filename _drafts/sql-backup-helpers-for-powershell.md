@@ -2,6 +2,7 @@
 layout: post
 title: "SQL Backup Helpers for PowerShell"
 date: "2015-12-25 23:44"
+categories: sql powershell scripts
 ---
 
 My workflow with SQL often looks like that:
