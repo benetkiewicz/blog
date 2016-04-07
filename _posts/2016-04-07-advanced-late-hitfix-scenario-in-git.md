@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Advanced late hotfix scenario in Git"
-date: "2016-04-07 21:41"
+title: Advanced late hotfix scenario in Git
+date: '2016-04-07 22:56'
 categories: git
 ---
 
