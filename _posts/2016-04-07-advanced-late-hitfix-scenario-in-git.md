@@ -20,14 +20,14 @@ This project hit production after `5fe39ad - something 1`. Soon we realized that
 
 + Create patches for `a39ba71` and `ebad147`:
 
-```
+```powershell
 [development ≡]> git format-patch -1 a39ba71
 [development ≡]> git format-patch -1 ebad147
 ```
 
 + Revert a39ba71 and ebad147:
 
-```PowerShell
+```powershell
 [development ≡]> git revert a39ba71
 [development ≡]> git revert ebad147
 ```
