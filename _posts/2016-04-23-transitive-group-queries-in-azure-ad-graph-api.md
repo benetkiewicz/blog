@@ -5,7 +5,7 @@ date: '2016-04-23 18:37'
 categories: azure graph
 ---
 
-In Windows Azure Graph API, some operations on groups are transitive and others are scoped only to direct members of the group. So if you have a user that a member of _developers_ group, and groups _reporting_ and _admin_ contain _developers_, non-transitive operation will not tell you that your user is member of _reporting_.
+In Windows Azure Graph API, some operations on groups are transitive and others are scoped only to direct members of the group. So if you have a user that is a member of _developers_ group, and groups _reporting_ and _admin_ contain _developers_, non-transitive operation will not tell you that your user is member of _reporting_.
 
 I needed to get all group names that user is assigned to. I had the following code:
 
