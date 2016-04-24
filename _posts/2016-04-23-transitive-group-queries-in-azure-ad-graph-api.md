@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Transitive Group queries in Azure AD Graph API
-date: '2016-04-23 18:36'
+date: '2016-04-23 18:37'
 categories: azure graph
 ---
 
