@@ -18,11 +18,7 @@ public class UserController : ApiController, IUserService
     [Route("{userId}")]
     public UserDto GetUser(int userId)
     {
-        var user = new UserDto();
-        user.Id = userId;
-        user.Username = "username";
-        user.Email = "foo@bar.com";
-
+        UserDto user = this.userRepo.GetById(userId);
         return user;
     }
 }
@@ -63,4 +59,28 @@ IUserService user = new UserServiceClient();
 UserDto userDto = user.GetUser(userId);
 ```
 
-See the whole sample [on my github](https://github.com/benetkiewicz/RestApiCodeNavigationSample)
+### Note about RESTfulness
+
+Returning `null` from `GetUser` method on server side is not very RESTful, yet we cannot return `IHttpActionResult` because we need to implement interface. Fortunately there's a way:
+
+```csharp
+[RoutePrefix("api/v1/user")]
+public class UserController : ApiController, IUserService
+{
+    [Route("{userId}")]
+    public UserDto GetUser(int userId)
+    {
+        UserDto user = this.userRepo.GetById(userId);
+        if (userDto == null)
+        {
+            throw new HttpResponseException(System.Net.HttpStatusCode.NotFound);
+        }
+
+        return user;
+    }
+}
+```
+
+This doesn't address the potential problem with RESTful __PUT__ action (`CreateUser`) but creative programmer with figure something out using `ActionFilterAttribute`.
+
+See the whole sample [on my github](https://github.com/benetkiewicz/RestApiCodeNavigationSample).
