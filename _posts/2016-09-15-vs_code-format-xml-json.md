@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Use VS Code to prettify XML and JSon code"
-date: "2016-09-15 22:01"
+title: Use VS Code to prettify XML and JSon code
+date: '2016-09-15 23:00'
 categories: tips code json
 ---
 
