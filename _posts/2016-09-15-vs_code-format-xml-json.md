@@ -9,7 +9,7 @@ While debugging, you often need to analyze a random piece of XML or JSon. Most o
 
 So how to quickly format a random piece of XML or JSon in Code?
 
-![VS Code format](images/vs_code_language_mode.png)
+![VS Code format]({{ site.url }}images/vs_code_language_mode.png)
 
 Create a new tab (`ctrl + n`), paste your code snippet (`ctrl + v`). Notice that until you save it, it will not be recognized as XML or JSon, so _Format Code_ option, which we'll cover in a minute, will not be available. You probably don't want to save this file (file extension would hint code what is the type of data), so you need to use _Change Language Mode_ (`ctrl + k, m`) option from the command palette (`ctrl + shift + p`) and choose JSon or XML. By the way, XML is not supported by default, so make sure you have [XML Tools][b874bbc8] extension installed. Now, since VS Code is aware of context, hit (`ctrl + shift + p`) again and choose _Format Code_.
 
