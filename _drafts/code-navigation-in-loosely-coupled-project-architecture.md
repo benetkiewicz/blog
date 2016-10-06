@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "Code navigation in loosely coupled project architecture"
-date: "2016-07-29 23:16"
+date: "2016-10-06 20:26"
+categories: mvc rest webapi
 ---
 
 When your web application project has App and Web layer, it is often not only divided conceptually but also on a physical and infrastructure layer. No matter if communication between layers is via WCF, asmx or .NET remoting (anyone here remembers .NET remoting?), you have a nice and clean separation with ability to scale but also a bit of a pain in code navigation. Drilling down using _Go To Implementation_ finally get you to WCF proxy class, HTTP call or something similarly useless. Then you need to understand how the technology works and find "the other end".
