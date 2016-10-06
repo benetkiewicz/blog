@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Code navigation in loosely coupled project architecture"
-date: "2016-10-06 20:26"
+title: Code navigation in loosely coupled project architecture
+date: '2016-10-06 20:35'
 categories: mvc rest webapi
 ---
 
