@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Aggregate string concatenation in TSQL explained"
-date: "2016-10-12 21:19"
+title: Aggregate string concatenation in TSQL explained
+date: '2016-10-12 22:09'
 categories: sql tsql
 ---
 
@@ -19,7 +19,7 @@ Having this:
 SELECT id, val FROM #tbl
 ```
 
-  | id| val
+ &nbsp;| id| val
 --|---|--
  1| 1 | aaa
  2| 2 | bbb
@@ -27,7 +27,7 @@ SELECT id, val FROM #tbl
 
 We want to get the following result:
 
-  | id| foo
+&nbsp;| id| foo
 --|---|--
  1| 1 | aaa, ccc
  2| 2 | bbb
@@ -108,9 +108,10 @@ SELECT id, (SELECT val+', ' FROM #tbl tblinner WHERE (tblinner.id=tblouter.id) F
 FROM #tbl tblouter GROUP BY id
 ```
 
-  | id| foo
+&nbsp;| id| foo
 --|---|--
-  | 1 | aaa, ccc,
-  | 2 | bbb,
+ 1| 1 | aaa, ccc,
+ 2| 2 | bbb,
+
 
 Now use `replace()` and `len()` or `stuff()` and voilla!

@@ -8,7 +8,18 @@ dl, dd, ol, ul, figure {
     padding: 0;
 }
 
+table {
+    border-collapse: collapse;
+}
 
+table, th, td {
+   border: 1px solid black;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
 
 /**
  * Basic styling
