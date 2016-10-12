@@ -6,6 +6,7 @@ categories: sql tsql
 ---
 
 I'm not sure about latest version of Microsoft SQL Server, but still popular 2008R2 and 2012 versions do not have an aggregate function that would join strings for you. You need to choose one of the work-arounds:
+
 1. a lengthy query that is using PIVOT
 2. a CLR aggregator function
 3. FOR XML
