@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Deep dive into Azure AD Authentication"
-date: "2016-12-30 21:59"
+title: Deep dive into Azure AD Authentication
+date: '2016-12-30 22:03'
 categories: azure active directory csharp
 ---
 
