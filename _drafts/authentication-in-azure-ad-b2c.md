@@ -29,4 +29,18 @@ https://login.microsoftonline.com/aisappengine.onmicrosoft.com/oauth2/authorize?
 ```
 It is pretty much the same as a redirect URL in B2E scenario but there's a `p` (as in policy) query string parameter which is triggering proper behavior on Azure side. Our whole programming task right now is to convince MVC to include proper policy name when automatically redirecting to Azure when it encounters `Authorize` attribute.
 
+```powershell
+Update-package Microsoft.IdentityModel.Protocol.Extensions
+```
+
+![azure b2c claims]({{ site.url }}images/azure_b2c_claims.png)
+
+```csharp
+TokenValidationParameters = new TokenValidationParameters
+{
+    NameClaimType = "name",
+    SaveSigninToken = true //important to save the token in boostrapcontext
+}
+```
+
 Setup _Identity Providers_ for federation.
