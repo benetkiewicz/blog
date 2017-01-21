@@ -15,6 +15,8 @@ B2C is a different type of Azure Active Directory, which is a fact that you stat
 
 So, once you create a B2C directory from withing legacy portal, you can use preffered (legacy or new) UI to create app and user in your newly created directory. This process is pretty much the same as for B2E, so I will not cover the details here. Once setup is done, you need _Client Id_ and _Tenant_ to replace values in a configuration in our B2E example and sign in process should work the same. Remember to use an account from B2E directory!
 
+## B2E Policies
+
 We've got to the point where we're stuck again with a pre-defined set of users, no sign-up, no federation with other identity providers, nothing fancy. But this is where it gets interesting. We need to create and incorporate a _policy_. Head to the old portal, navigate to a landing page for your B2C directory and click _Manage B2C settings_ link. It will redirect you to the new portal (told'ya - madness!) and open _AZURE AD B2C SETTINGS_ section automatically. Let's see how we can set up our application with an onboarding process for users from internet.
 
 Go to _Sign-up policies_, click _Add_, give it a name (I named it _blog_policy_ so the full name will be _B2C_1_blog_policy_) and in _Identity providers_ section select _Email signup_. It is the only build-in azure sign up policy which also has an advantage of not having any additional configuration. For users it will be as simple as it can be - their new accounts will be associated with their emails, they will have to create a password and it will essentially create a new account in our B2C directory.
@@ -29,17 +31,45 @@ https://login.microsoftonline.com/aisappengine.onmicrosoft.com/oauth2/authorize?
 ```
 It is pretty much the same as a redirect URL in B2E scenario but there's a `p` (as in policy) query string parameter which is triggering proper behavior on Azure side. Our whole programming task right now is to convince MVC to include proper policy name when automatically redirecting to Azure when it encounters `Authorize` attribute.
 
+## Give me the code
+
+First we need to update a package listed below, because it doesn't play nicely with B2E for some reason.
+
 ```powershell
 Update-package Microsoft.IdentityModel.Protocol.Extensions
 ```
+
+Next, our `OpenIdConnectAuthenticationOptions` need to be adjusted a bit in comparison to the one we've had previously for B2E.
+
+```csharp
+string policy = "B2C_1_Blog_SignIn_SignUp";
+app.UseOpenIdConnectAuthentication(
+    new OpenIdConnectAuthenticationOptions
+    {
+        ClientId = WebConfigurationManager.AppSettings["ida:ClientId"],
+        MetadataAddress = string.Format(
+            "https://login.microsoftonline.com/{0}/v2.0/.well-known/openid-configuration?p={1}",
+            WebConfigurationManager.AppSettings["ida:Tenant"],
+            policy),
+        RedirectUri = "http://localhost:44404/"
+    });
+```
+
+`MetadataAddress = ` is the line responsible of understanding `p` parameter. If you remember from the previous post, by default middleware automatically looks for a openid contract at the location as configured in azure:
+
+![Azure View Endpoints]({{ site.url }}images/azure_endpoints.png)
+
+With `MetadataAddress = ` we give a hint to the middleware where new, policy-aware configurations are being hosted.
+Some articles and blog posts on the topic also advise to set Scope and Response properties which drive the OpenidConnect/OAuth2 flows to "openid" and "id_token" which by default are openid+profile and code+id_token respectively.
+
+With the above changes applied, you should be able to run the app, be redirected to azure login page that allows user registration via email. After quick registration process (that requires email validation via email sent by azure) your brand new account will be created and after successful authentication you'll be greeted as previously... or not.
 
 ![azure b2c claims]({{ site.url }}images/azure_b2c_claims.png)
 
 ```csharp
 TokenValidationParameters = new TokenValidationParameters
 {
-    NameClaimType = "name",
-    SaveSigninToken = true //important to save the token in boostrapcontext
+    NameClaimType = "name"
 }
 ```
 
