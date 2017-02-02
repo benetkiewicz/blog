@@ -62,9 +62,13 @@ app.UseOpenIdConnectAuthentication(
 With `MetadataAddress = ` we give a hint to the middleware where new, policy-aware configurations are being hosted.
 Some articles and blog posts on the topic also advise to set Scope and Response properties which drive the OpenidConnect/OAuth2 flows to "openid" and "id_token" which by default are openid+profile and code+id_token respectively.
 
-With the above changes applied, you should be able to run the app, be redirected to azure login page that allows user registration via email. After quick registration process (that requires email validation via email sent by azure) your brand new account will be created and after successful authentication you'll be greeted as previously... or not.
+With the changes listed above applied, you should be able to run the app, be redirected to azure login page that allows user registration via email. After quick registration process (that requires email validation via email sent by azure) your brand new account will be created and after successful authentication you'll be greeted as previously... or not.
+
+As you can see in the snippet below, we get all the data we need, MVC just can't understand which payload part is user identifier:
 
 ![azure b2c claims]({{ site.url }}images/azure_b2c_claims.png)
+
+ We can help it with the following addition to _OpenIdConnectAuthenticationOptions_:
 
 ```csharp
 TokenValidationParameters = new TokenValidationParameters
@@ -72,5 +76,4 @@ TokenValidationParameters = new TokenValidationParameters
     NameClaimType = "name"
 }
 ```
-
-Setup _Identity Providers_ for federation.
+With this code in place, app will greet each user correctly, but now users can register in the app by themselves and this process is totally outsourced to Azure AD. How cool is that?
