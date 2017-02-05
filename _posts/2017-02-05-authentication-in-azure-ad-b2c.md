@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Authentication in Azure AD B2C"
-date: "2017-02-05 22:19"
+title: Authentication in Azure AD B2C
+date: '2017-02-05 23:24'
 categories: azure active directory csharp
 ---
 
