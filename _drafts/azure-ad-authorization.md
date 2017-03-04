@@ -48,7 +48,7 @@ Please also note that you may not find _objectidentifier_ claim on your user's i
 
 ### Roles
 
-There are some predefined roles in azure, which you can see by going to user detail tab in legacy portal. You can also define your custom roles per application scope. Roles setup is, again, tedious json edit in application manifest file. Go to your application download and edit manifest, add the following snippet in the empty roles section (adjust to your needs):
+There are some predefined global user roles in azure, like Global Admin or User, which you can see by going to role section in user profile tab in legacy portal. You can also define your custom roles per application scope. Roles setup is, again, tedious json edit in application manifest file. Go to your application download and edit manifest and add the following snippet in the empty roles section (adjust to your needs):
 
 ```javascript
 {
@@ -77,7 +77,9 @@ There are some predefined roles in azure, which you can see by going to user det
 }
 ```
 
-You can set user in role while assigning him to an app. In legacy portal go to app -> assign and the roles dropdown should appear automatically. Remember that if you have only one role for your app, you will not be presented with any choice and assigned users will automaticaly have this role assigned. Roles will automatically be translated to claims in ASP.NET Identity. (TODO: screenshot)
+You can set user in role while assigning him to an app. In legacy portal go to application, click _USERS_ tab, select user and click _ASSIGN_ button in the bottom. The roles dropdown should appear automatically. Remember that if you have only one role for your app, you will not be presented with any choice and assigned users will automaticaly have this role assigned. Roles will automatically be translated to claims in ASP.NET Identity.
+
+![Azure portal roles assignment]({{ site.url }}images/azure_roles_assignment.png)
 
 I haven't found a way to assign user to a role in new portal.
 
