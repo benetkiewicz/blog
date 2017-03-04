@@ -10,13 +10,19 @@ In the third part of this Azure AD series I will cover various features that can
 
 Groups are top level active directory objects, that can contain any number of users. Groups in B2E can also be nested, which unfortunately is not the case for B2C. Nesting groups can lead to some issues when using Graph API to check membership. Some Graph API calls are transitive and some or not, so asking about assignment to a group high in the tree hierarchy can give different results based on the api call of choice.
 
-You can manage groups and user assignments in legacy portal (what about new???) or using Graph API. In order to have groups automatically set as claims for ASP.NET identity, there are two things to set up. First, your app and given user context needs permissions to query directory objects: _Delegated Permissions_ -> _Read all groups_, _Read directory data_, _Access the directory as the signed-in user_. Second, you need to flip the switch in application manifest file, because group claims are not being returned by default. Find "groupMembershipClaims" and change _null_ value to "All" or "SecurityGroup".
+You can manage groups and user assignments in both legacy and new portals or using Graph API. In order to have groups automatically set as claims for ASP.NET identity, you need to flip the switch in application manifest file, because group claims are not being returned by default. Go to application settings in legacy Azure portal, select _Manage Manifest_, download file, find _groupMembershipClaims_ and change _null_ value to _SecurityGroup_. The other permitted value is _All_ but this will return all user's distribution lists, which for some users, in some corporations, can easilly excess the limit, which for JWT token is set to 200. As a side note: in new portal, you can just edit manifest in the browser, which is kind of nice.
+
+If all goes well, ASP.NET Identity will contain claims with IDs of all groups user is assigned to:
+
+![Azure principal claims groups]({{ site.url }}images/azure_principal_claims_groups.png)
 
 ### Groups in B2C
 
 This is all good and fine in B2E scenarios. B2C will not return groups in payload, no matter what configuration voodoo we will do. Graph API is a way to go and fortunatelly is not that hard to play with.
 
-To query B2C Active Directory using Graph API you need a special application, other than the one you are currently working with. Set of powershell commands required to create this azure app is described in detail in MSDN documentation (link). Once you have that, the following code will answer if user is member of certain group:
+To query B2C Active Directory using Graph API you need a special __service application__, other than the one you are currently working with. Set of powershell commands required to create this azure app is described in detail in [MSDN documentation][msdndoc]. Once you have that, the following code will get the list of IDs of all groups user is assigned to:
+
+[msdndoc]: https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-devquickstarts-graph-dotnet#register-a-service-application-in-your-tenant
 
 ```csharp
 var credential = new ClientCredential(clientId, clientSecret);
@@ -42,16 +48,40 @@ Please also note that you may not find _objectidentifier_ claim on your user's i
 
 ### Roles
 
-There are some predefined roles in azure, which you can see by going to user detail tab in legacy (new?) portal. You can also define your custom roles per application scope. Roles setup is again tedious json edit in application manifest file. Go to your application download and edit manifest, add the following snippet in the empty roles section (adjust to your needs):
+There are some predefined roles in azure, which you can see by going to user detail tab in legacy portal. You can also define your custom roles per application scope. Roles setup is, again, tedious json edit in application manifest file. Go to your application download and edit manifest, add the following snippet in the empty roles section (adjust to your needs):
 
 ```javascript
 {
-    foo: bar;
+    "appRoles": [
+    {
+      "allowedMemberTypes": [
+        "User"
+      ],
+      "displayName": "Reader",
+      "id": "d2c2ade8-98f8-45fd-aa4a-6d06b947c64f",
+      "isEnabled": true,
+      "description": "Readers Have the ability to create tasks.",
+      "value": "Reader"
+    },
+    {
+      "allowedMemberTypes": [
+        "User"
+      ],
+      "displayName": "Writer",
+      "id": "d2c2ade8-98f8-45fd-aa4a-6d06b947c65f",
+      "isEnabled": true,
+      "description": "Writers Have the ability to create tasks.",
+      "value": "Writer"
+    }
+  ]
 }
 ```
 
-You can set use in role while assigning him to an app. Go to app -> assign and the roles dropdown should appear automatically. Remember that if you have only one role for your app, you will not be presented with any choice and assigned users will automaticaly have this role assigned.
+You can set user in role while assigning him to an app. In legacy portal go to app -> assign and the roles dropdown should appear automatically. Remember that if you have only one role for your app, you will not be presented with any choice and assigned users will automaticaly have this role assigned. Roles will automatically be translated to claims in ASP.NET Identity. (TODO: screenshot)
 
+I haven't found a way to assign user to a role in new portal.
+
+TODO: fourth post
 ### M2M
 
 * manifest
