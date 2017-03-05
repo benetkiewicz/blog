@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Azure AD Authorization"
-date: "2017-02-14 21:00"
+title: Azure AD Authorization
+date: '2017-03-05 18:30'
 categories: azure active directory csharp
 ---
 
