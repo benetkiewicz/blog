@@ -2,9 +2,15 @@
 layout: post
 title: "Azure AD Authorization"
 date: "2017-02-14 21:00"
+categories: azure active directory csharp
 ---
 
-In the third part of this Azure AD series I will cover various features that can be utilized to implement authorization in your application. Azure supports groups and roles which are easilly transformable to ASP.NET Identity claims. There is also OAuth2 client credentials flow available to utilize in machine to machine scenarios. If there are very refined rules driving your authorization, you can utilize Azure Graph API to get access to almost any data in directory's possession in order to make your security desisions.
+In the third part of this Azure AD series I will cover various features that can be utilized to implement authorization in your application. You can find previous posts [here][part1] and [here][part2].
+
+[part1]: http://benetkiewicz.github.io/blog/azure/active/directory/csharp/2016/12/30/azure-ad-authentication.html
+[part2]: http://benetkiewicz.github.io/blog/azure/active/directory/csharp/2017/02/05/authentication-in-azure-ad-b2c.html
+
+Azure supports groups and roles which are easilly transformable to ASP.NET Identity claims. If there are very refined rules driving your authorization, you can utilize Azure Graph API to get access to almost any data in directory's possession in order to make your security desisions.
 
 ### Groups in B2E
 
@@ -42,7 +48,7 @@ return await response.Content.ReadAsStringAsync();
 
 The above code requires some explanation. The goal is to make a _POST_ request to Graph _getMemberGroups_ operation, parametrized with user's _objectId_ - user's unique identifier in AD. Call is protected with Bearer token, which needs to be provided in authentication header of the request. Token is obtained from Azure with use of this special credential set I mentioned in a previous paragraph. Notice also a _securityEnabledOnly_ parameter provided in request body which is rough equivalent of _groupMembershipClaims_ setting from json app manifest.
 
-Please also note that you may not find _objectidentifier_ claim on your user's identity. It depends on B2C policy settings, so head out to new portal and make sure that _Policies_ -> _policy name_ -> _Edit_ -> _Application claims_, and select _User's Object ID_, see below:
+Please also note that you may not find _objectidentifier_ claim on your user's identity. It depends on B2C policy settings, so head out to new portal, navigate to _Policies_ -> _policy name_ -> _Edit_ -> _Application claims_, and select _User's Object ID_, see below:
 
 ![Azure AD B2C objectid claim]({{ site.url }}images/azure_ad_b2c_objectidclaim.png)
 
@@ -77,15 +83,16 @@ There are some predefined global user roles in azure, like Global Admin or User,
 }
 ```
 
-You can set user in role while assigning him to an app. In legacy portal go to application, click _USERS_ tab, select user and click _ASSIGN_ button in the bottom. The roles dropdown should appear automatically. Remember that if you have only one role for your app, you will not be presented with any choice and assigned users will automaticaly have this role assigned. Roles will automatically be translated to claims in ASP.NET Identity.
+You can set user in role while assigning him to an app. In legacy portal go to application, click _users_ tab, select user and click _ASSIGN_ button in the bottom. The roles dropdown should appear automatically. Remember that if you have only one role for your app, you will not be presented with any choice and assigned users will automaticaly have this role assigned. Roles will automatically be translated to claims in ASP.NET Identity.
 
 ![Azure portal roles assignment]({{ site.url }}images/azure_roles_assignment.png)
 
 I haven't found a way to assign user to a role in new portal.
 
-TODO: fourth post
 ### M2M
 
-* manifest
-* permissions (screenshot?)
-* consume c#
+That's it for user's authorization in azure B2E and B2C. In the next part of the series I'll cover machine to machine authorization scenarios and topics like:
+
+* necessary manifest changes
+* setting permissions in Azure portal
+* working with Bearer tokens in C#
