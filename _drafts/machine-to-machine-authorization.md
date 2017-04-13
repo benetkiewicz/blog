@@ -6,9 +6,13 @@ date: "2017-04-13 20:41"
 
 This is the last post in the series about Azure Active Directory authentication and authorization. To navigate previous post, navigate to the following links:
 
-* first
-* Second
-* third
+* [Deep dive into Azure AD Authentication][first]
+* [Authentication in Azure AD B2C][second]
+* [Azure AD Authorization][third]
+
+[first]: {{site.url}}azure/active/directory/csharp/2016/12/30/azure-ad-authentication.html
+[second]: {{site.url}}azure/active/directory/csharp/2017/02/05/authentication-in-azure-ad-b2c.html
+[third]: {{site.url}}azure/active/directory/csharp/2017/03/05/azure-ad-authorization.html
 
 ## Business case
 
@@ -67,6 +71,67 @@ As usual, I need Azure AD app configuration for my API. Next, edit application m
 
 Notice `allowedMemberTypes` being set to `Application` and the value of the role.
 Next, we design an onboarding process. Each partner that wants access to our API needs to have Azure AD created. In newly create app in azure portal, go to _CONFIGURE_ and click big green _Add application_ button in the bottom. Search for Azure app that represents your API and click plus sign in the grid next to it.
-![Azure App Permissions](images/azure_app_permissions_listing.png)
+
+![Azure App Permissions]({{ site.url }}images/azure_app_permissions_listing.png)
+
 Back in main settings panel, in _permissions to other applications_ section at the bottom, you will have a new row representing our API, with all _Application Permissions_ it provides. Select proper items from the list and save.
-![Azure App Selection](images/azure_app_permissions_selection.png)
+
+![Azure App Selection]({{ site.url }}images/azure_app_permissions_selection.png)
+
+### API code adjustments
+
+It all comes down to analyzing roles embedded within the incoming request token. If requested API route starts with some role value then request is authorized to proceed.
+
+```csharp
+public class AuthorizeApiAzureAttribute : AuthorizeAttribute
+{
+    protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
+    { /* omitted for clarity */ }
+
+    protected override bool IsAuthorized(HttpActionContext actionContext)
+    {
+        var claims = ClaimsPrincipal.Current.FindAll(c => c.Type == ClaimTypes.Role || c.Type == "roles");
+        if (claims == null || !claims.Any())
+        {
+            return false;
+        }
+
+        List<string> roleValues = claims.Select(c => c.Value).ToList();
+        var url = actionContext.Request.RequestUri;
+        return IsAuthorizedInternal(url, roleValues);
+    }
+
+    protected static bool IsAuthorizedInternal(Uri url, List<string> roleValues)
+    {
+        string path = String.Format(@"{0}{1}{2}{3}", url.Scheme, Uri.SchemeDelimiter, url.Authority, url.AbsolutePath);
+        string apiPath = path.Substring(path.IndexOf(@"/api"));
+        return roleValues.Any(rv => apiPath.StartsWith(rv, StringComparison.InvariantCultureIgnoreCase));
+    }
+}
+```
+
+### What about client code?
+
+Please note that partner's clients are not bound to CSharp or .NET in general. It is cross-platform standard, so all they need to do is to obtain a token from azure using their _ClientId_ and _Secret_ and use this token with an API request. The following code should be very easy to port to other programming languages:
+
+```csharp
+var httpClient = new HttpClient();
+var tokenRequestMessage = new HttpRequestMessage(HttpMethod.Post, TokenEndpointUrl);
+HttpContent tokenRequestMsg = new FormUrlEncodedContent(new[]
+{
+    new KeyValuePair<string, string>("grant_type", "client_credentials"),
+    new KeyValuePair<string, string>("client_id", clientId),
+    new KeyValuePair<string, string>("client_secret", secret),
+    new KeyValuePair<string, string>("resource", resource)
+});
+tokenRequestMessage.Content = tokenRequestMsg;
+
+var tokenResponse = httpClient.SendAsync(tokenRequestMessage).Result;
+string rawTokenResponse = tokenResponse.Content.ReadAsStringAsync().Result;
+TokenRequestResponse deserializedTokenResponse = JsonConvert.DeserializeObject<TokenRequestResponse>(rawTokenResponse);
+
+var apiClient = new HttpClient();
+apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", deserializedTokenResponse.access_token);
+var apiResponse = apiClient.GetAsync("http://foo.com/api/v1/xml/awesomecorp/registration?dateFrom=2017-01-01").Result;
+string content = apiResponse.Content.ReadAsStringAsync().Result;
+```
