@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Machine to machine authorization in Azure AD"
-date: "2017-04-14 15:21"
+title: Machine to machine authorization in Azure AD
+date: '2017-04-14 15:23'
 categories: azure active directory csharp
 ---
 
