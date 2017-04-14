@@ -1,10 +1,11 @@
 ---
 layout: post
-title: "Machine to machine authorization"
-date: "2017-04-13 20:41"
+title: "Machine to machine authorization in Azure AD"
+date: "2017-04-14 15:21"
+categories: azure active directory csharp
 ---
 
-This is the last post in the series about Azure Active Directory authentication and authorization. To navigate previous post, navigate to the following links:
+This is the last post in the series about Azure Active Directory authentication and authorization. To see previous posts, navigate to the following links:
 
 * [Deep dive into Azure AD Authentication][first]
 * [Authentication in Azure AD B2C][second]
@@ -16,7 +17,7 @@ This is the last post in the series about Azure Active Directory authentication 
 
 ## Business case
 
-In this post I will cover how to protect access to Web API with baerer tokens, using Azure Active Directory. The business case is as follows:
+In this post I will cover how to protect access to Web API with bearer tokens, using Azure Active Directory. The business case is as follows:
 
 * My core business app gathers users data in a very structured way. It is being used by Organizations, that create Forms for their users to fill, and each filled and completed Form becomes a Submission.
 
@@ -25,7 +26,7 @@ In this post I will cover how to protect access to Web API with baerer tokens, u
 ```csharp
 [HttpGet]
 [Route("api/v1/{organization}/{form}")]
-public AppResponse Get(string organization, string form, string dateFrom)
+public AppResponse Get(string organization, string form, [FromUri]string dateFrom)
 ```
 
 * I need to be able to grant access to my API to various third party services for their integration purposes. Security must be quite granular, I need to be able to grant access to all submissions of the form, all form submissions in a given organization or to all data.
@@ -40,7 +41,7 @@ but should fail with _403_ when accessing
 
 ## Azure setup
 
-As usual, I need Azure AD app configuration for my API. Next, edit application manifest and add some roles. This time they will be _application roles_ as opposed to _user roles_ which we added in part TODO!
+As usual, I need Azure AD app configuration for my API. Next, edit application manifest and add some roles. This time they will be _Application_ roles as opposed to _User_ roles which we added in previous post in the series.
 
 ```javascript
 {
@@ -70,7 +71,7 @@ As usual, I need Azure AD app configuration for my API. Next, edit application m
 ```
 
 Notice `allowedMemberTypes` being set to `Application` and the value of the role.
-Next, we design an onboarding process. Each partner that wants access to our API needs to have Azure AD created. In newly create app in azure portal, go to _CONFIGURE_ and click big green _Add application_ button in the bottom. Search for Azure app that represents your API and click plus sign in the grid next to it.
+Next, we design an onboarding process. Each partner that wants access to our API needs to have Azure AD application created. In newly create app in azure portal, go to _CONFIGURE_ and click big green _Add application_ button in the bottom. Search for Azure app that represents your API and click plus sign in the grid next to it.
 
 ![Azure App Permissions]({{ site.url }}images/azure_app_permissions_listing.png)
 
@@ -80,7 +81,26 @@ Back in main settings panel, in _permissions to other applications_ section at t
 
 ### API code adjustments
 
-It all comes down to analyzing roles embedded within the incoming request token. If requested API route starts with some role value then request is authorized to proceed.
+First, API needs to be instructed where to expect incoming Auth data and how to ensure they aren't spoofed. The following code in `Startup.js` is required:
+
+```csharp
+public void Configuration(IAppBuilder app)
+{
+    app.UseWindowsAzureActiveDirectoryBearerAuthentication(
+     new WindowsAzureActiveDirectoryBearerAuthenticationOptions
+     {
+         TokenValidationParameters = new System.IdentityModel.Tokens.TokenValidationParameters
+         {
+             ValidAudience = ConfigurationManager.AppSettings["ida:Audience"]
+         },
+         Tenant = ConfigurationManager.AppSettings["ida:Tenant"]
+     });
+}     
+```
+
+_ida:Audience_ is _APP ID URI_ setting configured in Azure portal and it ensures that the token is meant for our API. _ida:Tenant_ is what we've had in all previous code examples.
+
+Then it all comes down to analyzing roles embedded within the incoming request token. If requested API route starts with some role value then request is authorized to proceed.
 
 ```csharp
 public class AuthorizeApiAzureAttribute : AuthorizeAttribute
@@ -135,3 +155,5 @@ apiClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("B
 var apiResponse = apiClient.GetAsync("http://foo.com/api/v1/xml/awesomecorp/registration?dateFrom=2017-01-01").Result;
 string content = apiResponse.Content.ReadAsStringAsync().Result;
 ```
+
+In the code above, _clientId_ and _secret_ are as set in client's app in Azure Portal and _resource_ matches _ida:Audience_ in API.
